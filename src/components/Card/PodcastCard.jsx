@@ -1,5 +1,7 @@
 import React from 'react'
 import './Card.css'
+import ProgressiveImage from 'react-progressive-graceful-image'
+import { ImageSkeleton } from '../Skeletons/Skeletons'
 
 const PodcastCard = ({ cardImage, cardTitle, cardOnClick, cardActionOnClick }) => {
 	return (
@@ -7,14 +9,30 @@ const PodcastCard = ({ cardImage, cardTitle, cardOnClick, cardActionOnClick }) =
 			style={{ cursor: `${cardOnClick && 'pointer'}` }}
 			className="card"
 			onClick={cardOnClick}>
-			<img
-				style={{
-					height: `${!cardActionOnClick && '90%'}`,
-				}}
-				className="card-image"
+			<ProgressiveImage
 				src={cardImage}
-				alt={cardTitle}
-			/>
+				placeholder="">
+				{(src, loading) => {
+					return loading ? (
+						<div>
+							<ImageSkeleton
+								className={'card-image'}
+								width={'20.8125rem'}
+								height={'18.8125rem'}
+							/>
+						</div>
+					) : (
+						<img
+							style={{
+								height: `${!cardActionOnClick && '90%'}`,
+							}}
+							className="card-image"
+							src={src}
+							alt={cardTitle}
+						/>
+					)
+				}}
+			</ProgressiveImage>
 
 			<div className="card-content">
 				<h4>{cardTitle}</h4>

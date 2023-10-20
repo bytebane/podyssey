@@ -2,7 +2,8 @@ import React, { createRef, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateEmail, updateProfile } from 'firebase/auth'
+import { sendEmailVerification, updateEmail, updateProfile } from 'firebase/auth'
+import ProgressiveImage from 'react-progressive-graceful-image'
 
 import { auth } from '../../services/firebase/firebase'
 import { uploadFile } from './../../services/firebase/uploadFiles'
@@ -10,10 +11,11 @@ import { getPodcasts } from '../../services/redux/slices/podcastSlice'
 
 import InputBox from '../../components/InputBox'
 import { PodcastCard as Card } from '../../components/Card'
-import { CardSkeleton } from '../../components/Skeletons/Skeletons'
+import { CardSkeleton, ImageSkeleton } from '../../components/Skeletons/Skeletons'
 
-import cameraIcon from '../../assets/camera-ic.svg'
-import PlaceholderImage from '../../assets/aa.png'
+import addImageIcon from '../../assets/add-image.svg'
+import verifiedBadge from '../../assets/verified-badge.svg'
+import unverifiedBadge from '../../assets/unverified-badge.svg'
 
 import './ProfilePage.css'
 
@@ -21,6 +23,7 @@ const ProfilePage = () => {
 	const userData = useSelector((state) => state.user.data)
 
 	const podcasts = useSelector((state) => state.podcasts)
+	const episodes = useSelector((state) => state.episodes)
 
 	const dispatch = useDispatch()
 	const [editing, setEditing] = useState(false)
@@ -29,6 +32,19 @@ const ProfilePage = () => {
 	const navigate = useNavigate()
 
 	const imageInputRef = createRef()
+
+	const handleVerifyClick = () => {
+		if (auth.currentUser.emailVerified) {
+			return toast.info('Email is already verified')
+		}
+		sendEmailVerification(auth.currentUser)
+			.then(() => {
+				toast.success('Verification mail has been sent to your email address.')
+			})
+			.catch((error) => {
+				toast.error(error.message)
+			})
+	}
 
 	useEffect(() => {
 		if (!podcasts.list.length > 0) dispatch(getPodcasts())
@@ -120,26 +136,35 @@ const ProfilePage = () => {
 								src={URL.createObjectURL(imageFile)}
 								alt="profilePicture"
 							/>
-						) : userData.photoURL ? (
-							<img
-								className={`profile-image ${editing && 'edit-image'}`}
-								src={userData.photoURL}
-								alt="profilePicture"
-							/>
 						) : (
-							<img
-								className={`profile-image ${editing && 'edit-image'}`}
-								src={PlaceholderImage}
-								alt="profilePicture"
-							/>
+							auth.currentUser.photoURL && (
+								<ProgressiveImage
+									src={auth.currentUser.photoURL}
+									placeholder="">
+									{(src, loading) => {
+										return loading ? (
+											<div className="profile-image">
+												<ImageSkeleton dp />
+											</div>
+										) : (
+											<img
+												className={`profile-image ${editing && 'edit-image'}`}
+												src={src}
+												alt="profilePicture"
+											/>
+										)
+									}}
+								</ProgressiveImage>
+							)
 						)}
 						{editing && (
 							<img
 								onClick={() => imageInputRef.current.click()}
 								style={{ cursor: 'pointer', opacity: `${imageFile ? '0.2' : '1'}` }}
 								className="edit-image-ic"
-								src={cameraIcon}
-								alt="edit_icon"></img>
+								src={addImageIcon}
+								alt="edit_icon"
+							/>
 						)}
 					</div>
 					<div className="user-data">
@@ -152,7 +177,15 @@ const ProfilePage = () => {
 								style={{ margin: '3% 10%', marginTop: '5%', textAlign: 'center', letterSpacing: '0.15rem' }}
 							/>
 						) : (
-							<h3>{userData.displayName}</h3>
+							<div className="name-container">
+								<h3>{userData.displayName}</h3>
+								<img
+									className="verified-badge"
+									src={auth.currentUser.emailVerified ? verifiedBadge : unverifiedBadge}
+									alt="Verification Badge"
+									onClick={handleVerifyClick}
+								/>
+							</div>
 						)}
 						{editing ? (
 							<InputBox
@@ -168,7 +201,7 @@ const ProfilePage = () => {
 							</p>
 						)}
 						<p>
-							Total Uploads:&nbsp;&nbsp;<span>00 Podcasts </span>&nbsp; ● &nbsp;&nbsp;<span>00 Episodes</span>
+							Total Uploads:&nbsp;&nbsp;<span>{podcasts.list.length} Podcasts </span>&nbsp; ● &nbsp;&nbsp;<span>{episodes.list.filter((episode) => episode.createdBy === auth.currentUser.uid).length} Episodes</span>
 						</p>
 					</div>
 				</section>

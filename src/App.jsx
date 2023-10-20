@@ -20,12 +20,14 @@ function App() {
 
 	const episodePlaying = useSelector((state) => state.app.episodePlaying)
 
+	const userState = useSelector((state) => state.user)
+
 	const auth = getAuth()
 
 	// Adding event listener to check if user is signed in
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
-			if (user) {
+			if (user && !userState.isLoading) {
 				// User is signed in.
 				dispatch(setUser({ isAuthenticated: true, user }))
 				navigate('/podcasts')

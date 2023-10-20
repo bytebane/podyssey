@@ -22,6 +22,21 @@ export const ButtonSkeleton = () => {
 	)
 }
 
+export const ImageSkeleton = ({ className, dp, width, height }) => {
+	return (
+		<SkeletonTheme
+			highlightColor="#20062e60"
+			baseColor="rgba(58, 129, 191, .15)">
+			<div className={className ?? 'image-skeleton'}>
+				<Skeleton
+					style={{ borderRadius: `${dp && '100%'}` }}
+					width={width ?? '100%'}
+					height={height ?? '100%'}
+				/>
+			</div>
+		</SkeletonTheme>
+	)
+}
 // Skeleton Loader for Card
 export const CardSkeleton = () => {
 	return (

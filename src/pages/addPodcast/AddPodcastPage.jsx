@@ -11,12 +11,15 @@ import { getPodcasts } from '../../services/redux/slices/podcastSlice'
 import InputBox from '../../components/InputBox'
 
 import './AddPodcast.css'
+import { ButtonSkeleton } from '../../components/Skeletons'
 
 const AddPodcastPage = () => {
 	const UserInfo = useSelector((state) => state.user.data)
 
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+
+	const [loading, setLoading] = React.useState(false)
 
 	const createNewPodcast = async (event) => {
 		event.preventDefault()
@@ -61,6 +64,7 @@ const AddPodcastPage = () => {
 		}
 
 		// Upload Files & Create New Podcast
+		setLoading(true)
 		toast.loading('Hold on! Uploading Files...', {
 			toastId: 'uploadingPodcast',
 		})
@@ -70,6 +74,8 @@ const AddPodcastPage = () => {
 		]).then(async (urls) => {
 			toast.update('uploadingPodcast', {
 				render: 'Files Uploaded. Creating Podcast...',
+				type: 'info',
+				closeButton: true,
 			})
 			await addDoc(collection(dbFirestore, 'podcasts'), {
 				title: inputTitle,
@@ -99,6 +105,7 @@ const AddPodcastPage = () => {
 								</>
 							),
 						})
+						setLoading(false)
 						event.target.reset()
 					})
 				})
@@ -109,6 +116,7 @@ const AddPodcastPage = () => {
 						isLoading: false,
 						autoClose: 2000,
 					})
+					setLoading(false)
 				})
 		})
 	}
@@ -150,10 +158,15 @@ const AddPodcastPage = () => {
 					maxLength={500}
 					required
 				/>
-				<InputBox
-					type="submit"
-					value="Create New"
-				/>
+
+				{loading ? (
+					<ButtonSkeleton />
+				) : (
+					<InputBox
+						type="submit"
+						value="Create New"
+					/>
+				)}
 			</form>
 		</main>
 	)

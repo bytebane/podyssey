@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth } from '../../firebase/firebase'
 import { toast } from 'react-toastify'
+import uploadFiles from '../../firebase/uploadFiles'
 
 const initialState = {
 	data: null,
@@ -15,12 +16,28 @@ const savetoLocalStorage = (key, value) => {
 }
 
 // ANCHOR[id=thunk-signup] - Signup Middleware
-const signupUser = createAsyncThunk('user/signup', ({ name, email, password }, { rejectWithValue }) => {
+const signupUser = createAsyncThunk('user/signup', ({ name, email, password, imageFile }, { rejectWithValue }) => {
 	return toast
 		.promise(
 			createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
 				await updateProfile(userCredential.user, {
 					displayName: name,
+				})
+				sendEmailVerification(userCredential.user).then(() => {
+					toast.success('Verification email sent!', {
+						autoClose: 5000,
+					})
+				})
+				uploadFiles([
+					{
+						name: 'Profile Picture',
+						data: imageFile,
+						uploadPath: `user/dp-${userCredential.user.uid}`,
+					},
+				]).then(async (url) => {
+					await updateProfile(userCredential.user, {
+						photoURL: url[0],
+					})
 				})
 				savetoLocalStorage('hasAccount', true)
 				return userCredential.user
