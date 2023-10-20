@@ -148,7 +148,7 @@ const DetailsPage = () => {
 								/>
 							)}
 						</div>
-						<div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+						<div className="cards-list">
 							{episodesData.isLoading ? (
 								Array.from({ length: 8 }).map((_, index) => <CardWithTextSkeleton key={index} />)
 							) : episodesData.list.filter((episode) => episode.podcastId === params.id) <= 0 ? (
