@@ -14,7 +14,7 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -100%);
 }
 
 .card-skeleton {
@@ -29,6 +29,16 @@
 	align-items: center;
 	margin: 0;
 	position: relative;
+}
+
+.image-skeleton {
+	width: 15rem;
+	height: 15rem;
+	flex-shrink: 0;
+	border-radius: 100%;
+
+	margin: 5% auto;
+	object-fit: cover;
 }
 
 @keyframes load-anim-card {

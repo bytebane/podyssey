@@ -2,15 +2,34 @@ import React from 'react'
 import PlayIcon from '../../assets/play.svg'
 
 import './Card.css'
+import ProgressiveImage from 'react-progressive-graceful-image'
+import { ImageSkeleton } from '../Skeletons/Skeletons'
 
 function EpisodeCard({ episode, onClick }) {
 	return (
 		<div className="episode-card">
-			<img
-				className="episode-thumbnail"
+			<ProgressiveImage
 				src={episode.thumbnailUrl}
-				alt={episode.title}
-			/>
+				placeholder="">
+				{(src, loading) => {
+					return loading ? (
+						<div>
+							<ImageSkeleton
+								className={'episode-thumbnail'}
+								width={'110px'}
+								height={'110px'}
+							/>
+						</div>
+					) : (
+						<img
+							className="episode-thumbnail"
+							src={src}
+							alt={episode.title}
+						/>
+					)
+				}}
+			</ProgressiveImage>
+
 			<img
 				className="eposode-play"
 				src={PlayIcon}

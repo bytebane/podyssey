@@ -41,6 +41,7 @@ const PodcastsPage = () => {
 						: podcasts.list.length > 0 && // eslint-disable-next-line no-mixed-spaces-and-tabs
 						  podcasts.list
 								.filter((podcast) => podcast.title.toLowerCase().includes(searchText))
+								.sort((a, b) => a.title.localeCompare(b.title))
 								.map((podcast) => {
 									return (
 										<Card

@@ -11,10 +11,11 @@ import { auth, dbFirestore } from '../../services/firebase/firebase'
 import { getEpisodes } from '../../services/redux/slices/episodeSlice'
 
 import { EpisodeCard as Card } from '../../components/Card'
-import { CardWithTextSkeleton } from '../../components/Skeletons/Skeletons'
+import { CardWithTextSkeleton, ImageSkeleton } from '../../components/Skeletons/Skeletons'
 import { setPlayingEpisode } from '../../services/redux/slices/appSlice'
 
 import './DetailsPage.css'
+import ProgressiveImage from 'react-progressive-graceful-image'
 
 const DetailsPage = () => {
 	const params = useParams()
@@ -26,6 +27,8 @@ const DetailsPage = () => {
 	const formRef = useRef(null)
 
 	const dispatch = useDispatch()
+
+	const [popupLoading, setPopupLoading] = React.useState(false)
 
 	useEffect(() => {
 		if (!podcasts.list.length > 0) dispatch(getPodcasts())
@@ -43,6 +46,7 @@ const DetailsPage = () => {
 
 		if (!audio) return
 
+		setPopupLoading(true)
 		toast.loading('Hold on! Uploading Files...', {
 			toastId: 'uploadingEpisode',
 		})
@@ -76,6 +80,7 @@ const DetailsPage = () => {
 
 			.finally(() => {
 				formRef.current.close()
+				setPopupLoading(false)
 			})
 	}
 
@@ -86,16 +91,48 @@ const DetailsPage = () => {
 					<section className="podcast-info">
 						<h2>{podcastData.title}</h2>
 						<div className="image-stack">
-							<img
-								className="podcast-banner"
+							<ProgressiveImage
 								src={podcastData.bannerUrl}
-								alt={podcastData.title}
-							/>
-							<img
-								className="podcast-thumbnail"
-								src={podcastData.thumbnailUrl}
-								alt={podcastData.title}
-							/>
+								placeholder="">
+								{(src, loading) => {
+									return loading ? (
+										<div>
+											<ImageSkeleton
+												className={'podcast-banner'}
+												width={'100%'}
+												height={'24rem'}
+											/>
+										</div>
+									) : (
+										<img
+											className="podcast-banner"
+											src={podcastData.bannerUrl}
+											alt={podcastData.title}
+										/>
+									)
+								}}
+							</ProgressiveImage>
+							<ProgressiveImage
+								src={podcastData.bannerUrl}
+								placeholder="">
+								{(src, loading) => {
+									return loading ? (
+										<div>
+											<ImageSkeleton
+												className={'podcast-thumbnail'}
+												width={'150px'}
+												height={'150px'}
+											/>
+										</div>
+									) : (
+										<img
+											className="podcast-thumbnail"
+											src={podcastData.thumbnailUrl}
+											alt={podcastData.title}
+										/>
+									)
+								}}
+							</ProgressiveImage>
 						</div>
 						<p>{podcastData.description}</p>
 					</section>
@@ -107,7 +144,7 @@ const DetailsPage = () => {
 								<PopupForm
 									formRef={formRef}
 									handleAddNewEpisode={handleAddNewEpisode}
-									disabled={episodesData.isLoading}
+									disabled={popupLoading}
 								/>
 							)}
 						</div>

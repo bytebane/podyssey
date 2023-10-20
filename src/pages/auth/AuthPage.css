@@ -16,10 +16,68 @@ main.auth {
 .auth-choice {
 	text-align: center;
 }
+.dp-holder {
+	position: relative;
+	margin-top: -2rem;
+}
+.dp {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	line-height: 6.5rem;
+	text-transform: uppercase;
+	padding: 1rem;
+	width: 200px;
+	height: 200px;
+	background: var(--gradient-color);
+	border-radius: 100%;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+img.dp {
+	background: none;
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+
+.add-image-ic {
+	width: 40%;
+	height: 40%;
+	position: absolute;
+	top: 30%;
+	left: 30%;
+	cursor: pointer;
+	z-index: 10000;
+	opacity: 1;
+}
+.add-image-ic:hover {
+	opacity: 0.8 !important;
+}
+.add-image-ic:active {
+	opacity: 0.5 !important;
+}
 
 @media screen and (max-width: 768px) {
 	main.auth {
 		margin: 0 10%;
 		padding-top: 10vh;
+	}
+	.dp {
+		width: 150px;
+		height: 150px;
+		line-height: 4.5rem;
+	}
+	img.dp {
+		width: 150px;
+		height: 150px;
+	}
+	.add-image-ic {
+		width: 35%;
+		height: 35%;
+		top: 33%;
+		left: 33%;
 	}
 }

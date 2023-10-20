@@ -3,6 +3,7 @@ import Popup from 'reactjs-popup'
 import InputBox from '../InputBox'
 
 import './PopupForm.css'
+import { ButtonSkeleton } from '../Skeletons'
 
 export function PopupForm({ formRef, handleAddNewEpisode, disabled }) {
 	return (
@@ -51,11 +52,15 @@ export function PopupForm({ formRef, handleAddNewEpisode, disabled }) {
 							placeholder="Episode Description"
 							required
 						/>
-						<InputBox
-							type="submit"
-							name="submit"
-							value="Add Episode"
-						/>
+						{disabled ? (
+							<ButtonSkeleton />
+						) : (
+							<InputBox
+								type="submit"
+								name="submit"
+								value="Add Episode"
+							/>
+						)}
 					</form>
 				</>
 			)}

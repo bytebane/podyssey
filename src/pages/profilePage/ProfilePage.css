@@ -19,6 +19,24 @@ section.profile {
 	text-align: center;
 }
 
+.name-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+}
+.verified-badge {
+	cursor: pointer;
+}
+
+.verified-badge:hover {
+	opacity: 0.8;
+}
+.verified-badge:active {
+	opacity: 0.6;
+	transform: scale(0.95);
+}
+
 section.podcast {
 	margin-top: 16px;
 }
