@@ -14,6 +14,8 @@ div.card {
 }
 img.card-image {
 	width: 20.8125rem;
+	min-height: 291.383px;
+	flex-grow: 1;
 	flex-shrink: 0;
 	margin: 5% auto;
 	object-fit: cover;
@@ -32,7 +34,7 @@ div.card-content {
 
 div.card-content h4 {
 	text-overflow: ellipsis;
-	line-height: 1rem;
+	line-height: 2rem;
 	overflow: hidden;
 	white-space: nowrap;
 	margin-bottom: 24px;

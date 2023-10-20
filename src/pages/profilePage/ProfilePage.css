@@ -49,6 +49,7 @@ div.card-grid {
 	place-items: center;
 	grid-template-columns: repeat(auto-fit, minmax(23.3125rem, 1fr));
 	gap: 1.75rem;
+	padding-bottom: 4rem;
 }
 
 .edit-image {

@@ -23,3 +23,12 @@ div.image-stack .podcast-banner {
 	max-height: 30rem;
 	border-radius: var(--border-radius);
 }
+
+div.cards-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.75rem;
+	padding-bottom: 6rem;
+}
+
+/* style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', paddingBottom: '5rem' }} */
