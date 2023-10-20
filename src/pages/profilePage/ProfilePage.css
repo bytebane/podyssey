@@ -1,0 +1,59 @@
+section.profile {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.profile-image {
+	width: 15rem;
+	height: 15rem;
+	flex-shrink: 0;
+	border-radius: 100%;
+}
+
+.user-data p {
+	display: flex;
+	justify-content: center;
+}
+.user-data h3 {
+	text-align: center;
+}
+
+section.podcast {
+	margin-top: 16px;
+}
+section.podcast h2 {
+	text-align: center;
+}
+
+div.card-grid {
+	display: grid;
+	place-items: center;
+	grid-template-columns: repeat(auto-fit, minmax(23.3125rem, 1fr));
+	gap: 1.75rem;
+}
+
+.edit-image {
+	opacity: 0.2;
+}
+
+.edit-image-ic {
+	width: 40%;
+	height: 40%;
+	position: absolute;
+	top: 30%;
+	left: 30%;
+}
+
+.edit-btn {
+	position: absolute;
+	right: 12%;
+	top: 9.05rem;
+}
+
+@media screen and (max-width: 600px) {
+	.edit-btn {
+		top: 6.05rem;
+		right: 0;
+	}
+}

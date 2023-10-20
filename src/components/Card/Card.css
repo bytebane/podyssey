@@ -1,0 +1,100 @@
+div.card {
+	border-radius: var(--card-border-radius);
+	background: var(--gradient-color);
+	width: 23.3125rem;
+	min-height: 23.3125rem;
+	max-height: 27.625rem;
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0;
+	position: relative;
+}
+img.card-image {
+	width: 20.8125rem;
+	flex-shrink: 0;
+	margin: 5% auto;
+	object-fit: cover;
+	border-radius: var(--card-border-radius);
+}
+
+div.card-content {
+	align-self: flex-start;
+	margin-left: 1.5rem;
+	max-width: 18rem;
+	word-wrap: none;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+div.card-content h4 {
+	text-overflow: ellipsis;
+	line-height: 1rem;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-bottom: 24px;
+	margin-top: 0;
+}
+
+.card-action {
+	position: absolute;
+	bottom: 10px;
+	right: 20px;
+}
+
+.episode-card {
+	position: relative;
+	border-radius: var(--card-border-radius);
+	background: var(--gradient-color);
+	display: flex;
+	align-items: center;
+	padding: 10px 10px;
+	width: 100%;
+	max-height: 140px;
+}
+
+.episode-meta {
+	align-self: flex-start;
+	margin-left: 1.5rem;
+	max-width: 100%;
+	overflow: hidden;
+}
+.episode-meta * {
+	margin: 0;
+}
+.episode-meta p {
+	overflow-y: auto;
+	overflow-x: hidden;
+	word-wrap: break-word;
+	height: 95px;
+}
+
+.episode-thumbnail {
+	width: 120px;
+	height: 120px;
+	flex-shrink: 0;
+	object-fit: cover;
+	opacity: 0.8;
+
+	border-radius: var(--card-border-radius);
+}
+
+.eposode-play {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	width: 80px;
+	height: 80px;
+	cursor: pointer;
+}
+
+.episode-card:hover .episode-thumbnail {
+	opacity: 0.5;
+}
+
+.eposode-play:active {
+	opacity: 0.8;
+}

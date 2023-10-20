@@ -1,0 +1,25 @@
+main.auth {
+	margin: 0 30%;
+	padding-top: 15vh;
+}
+
+.auth-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1.5rem;
+	margin-top: 3rem;
+	margin-bottom: 2rem;
+}
+
+.auth-choice {
+	text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+	main.auth {
+		margin: 0 10%;
+		padding-top: 10vh;
+	}
+}

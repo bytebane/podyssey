@@ -1,0 +1,48 @@
+nav {
+	transition: all 0.5s ease-in-out;
+	max-height: 100px;
+}
+.navbar-bg {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	margin-top: -12%;
+	pointer-events: none;
+	mix-blend-mode: screen;
+}
+.navbar {
+	width: 66%;
+	margin: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8%;
+	padding: 1rem 0;
+}
+.navbar-link {
+	color: var(--secondary-color-lighter);
+	text-decoration: none;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+
+.navbar-link.active {
+	color: var(--secondary-color);
+	transform: scale(1.2);
+}
+
+@media only screen and (max-width: 1080px) {
+	.navbar {
+		width: 76%;
+		/* gap: 3rem; */
+	}
+}
+@media only screen and (max-width: 768px) {
+	.navbar {
+		width: 85%;
+		gap: 1.2rem;
+	}
+	.navbar-link {
+		font-size: 1rem;
+	}
+}

@@ -1,0 +1,81 @@
+:root {
+	--primary-color: #20062e;
+	--secondary-color: #ffffff;
+	--secondary-color-dim: #ffffff80;
+	--secondary-color-light: #91879c;
+	--secondary-color-lighter: #8ea6bb;
+	--accent-color: #18b2de;
+	--gradient-color: linear-gradient(178deg, rgba(58, 129, 191, 0.3) 1.63%, rgba(65, 48, 90, 0.01) 148.18%);
+	--gradient-color-reverse: linear-gradient(356deg, rgba(58, 129, 191, 0.3) 1.63%, rgba(65, 48, 90, 0.01) 148.18%);
+	--gradient-color-mid: linear-gradient(267deg, rgba(58, 129, 191, 0.3) 1.63%, rgba(65, 48, 90, 0.01) 148.18%);
+	--border-radius: 0.625rem;
+	--card-border-radius: 0.625rem;
+	--border: 2px solid var(--secondary-color-dim);
+
+	font-size: 14px;
+	font-family: 'Inter', sans-serif;
+	font-weight: 400;
+	line-height: 24px;
+}
+
+body {
+	background-color: var(--primary-color);
+	color: var(--secondary-color-dim);
+	width: 100vw;
+	height: 100vh;
+	/* overflow: hidden; */
+	font-size: 1rem;
+}
+
+#root {
+	width: 100%;
+	height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: var(--secondary-color);
+}
+
+h1 {
+	font-size: 3rem;
+	line-height: 3.5rem;
+	text-align: center;
+}
+h2 {
+	font-size: 2rem;
+}
+h3 {
+	font-size: 1.5rem;
+}
+h4 {
+	font-size: 1.25rem;
+}
+
+button {
+	border-radius: var(--border-radius);
+}
+.btn-text {
+	cursor: pointer;
+	color: var(--secondary-color);
+}
+
+main {
+	margin: 0 12%;
+}
+
+@media screen and (max-width: 768px) {
+	main {
+		margin: 0 5%;
+	}
+	h1 {
+		font-size: 2.5rem !important;
+	}
+	h2 {
+		font-size: 1.75rem !important;
+	}
+}

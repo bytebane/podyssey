@@ -1,0 +1,39 @@
+.input-box {
+	border-radius: var(--border-radius);
+	outline: none;
+	border: var(--border);
+	padding: 0.75rem 1rem;
+	background-color: transparent;
+	color: var(--secondary-color);
+	transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+	box-shadow: 4px 10px 18px rgba(109, 87, 87, 0.349);
+}
+
+.input-box:focus {
+	border-color: var(--secondary-color);
+}
+
+.input-box[type='submit'],
+button {
+	padding: 1rem;
+	font-size: 1rem;
+	cursor: pointer;
+	text-transform: uppercase;
+	border-color: var(--secondary-color);
+	transition: background-color 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.input-box[type='submit']:hover,
+button:hover {
+	border-color: var(--secondary-color-lighter);
+	background-color: var(--secondary-color-light);
+}
+.input-box[type='submit']:active,
+button:active {
+	background-color: var(--accent-color);
+	box-shadow: 2px 2px 6px var(--accent-color);
+}
+
+textarea.input-box {
+	min-height: 6rem;
+	max-width: 100%;
+}

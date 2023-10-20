@@ -1,0 +1,51 @@
+.skeleton-button {
+	width: 100%;
+	cursor: wait;
+	border: var(--border);
+	position: relative;
+	text-transform: uppercase;
+	color: var(--secondary-color);
+	border-radius: var(--border-radius);
+	border-color: var(--secondary-color);
+	box-shadow: 4px 10px 18px rgba(109, 87, 87, 0.349);
+}
+
+.skeleton-text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.card-skeleton {
+	border-radius: var(--card-border-radius);
+	background: var(--gradient-color);
+	width: 23.3125rem;
+	height: 27.625rem;
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0;
+	position: relative;
+}
+
+@keyframes load-anim-card {
+	0% {
+		background: var(--gradient-color);
+	}
+
+	25% {
+		background: var(--gradient-color-mid);
+	}
+	50% {
+		background: var(--gradient-color);
+	}
+	75% {
+		background: var(--gradient-color-mid);
+	}
+	100% {
+		background: var(--gradient-color-reverse);
+	}
+}

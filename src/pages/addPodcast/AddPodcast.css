@@ -1,0 +1,11 @@
+main.add-podcast {
+	margin: 0 30%;
+	padding-top: 5rem;
+}
+
+@media (max-width: 768px) {
+	main.add-podcast {
+		margin: 0 10%;
+		padding-top: 2.5rem;
+	}
+}
