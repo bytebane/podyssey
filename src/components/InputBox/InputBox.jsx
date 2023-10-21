@@ -1,4 +1,5 @@
 import React from 'react'
+
 import './InputBox.css'
 
 const InputBox = ({ className, type, name, placeholder, value, width = '100%', style, onChange, accept, required, maxLength }) => {

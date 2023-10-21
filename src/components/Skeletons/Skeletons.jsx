@@ -1,8 +1,8 @@
 import React from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
-import './Skeleton.css'
 import 'react-loading-skeleton/dist/skeleton.css'
+import './Skeleton.css'
 
 //  Skeleton Loader for Audio
 export const AudioSkeleton = () => {

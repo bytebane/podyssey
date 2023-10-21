@@ -11,12 +11,9 @@ import { getPodcasts } from '../../services/redux/slices/podcastSlice'
 
 import InputBox from '../../components/InputBox'
 import { PodcastCard as Card } from '../../components/Card'
-import { CardSkeleton, ImageSkeleton } from '../../components/Skeletons/Skeletons'
+import { CardSkeleton, ImageSkeleton } from '../../components/Skeletons'
 
-import addImageIcon from '../../assets/add-image.svg'
-import verifiedBadge from '../../assets/verified-badge.svg'
-import unverifiedBadge from '../../assets/unverified-badge.svg'
-
+import { AddImageIcon, UnVerifiedIcon, VerifiedIcon } from '../../assets'
 import './ProfilePage.css'
 
 const ProfilePage = () => {
@@ -171,7 +168,7 @@ const ProfilePage = () => {
 								onClick={() => imageInputRef.current.click()}
 								style={{ cursor: 'pointer', opacity: `${imageFile ? '0.2' : '1'}` }}
 								className="edit-image-ic"
-								src={addImageIcon}
+								src={AddImageIcon}
 								alt="edit_icon"
 							/>
 						)}
@@ -190,7 +187,7 @@ const ProfilePage = () => {
 								<h3>{userData.displayName}</h3>
 								<img
 									className="verified-badge"
-									src={auth.currentUser.emailVerified ? verifiedBadge : unverifiedBadge}
+									src={auth.currentUser.emailVerified ? VerifiedIcon : UnVerifiedIcon}
 									alt="Verification Badge"
 									onClick={handleVerifyClick}
 								/>

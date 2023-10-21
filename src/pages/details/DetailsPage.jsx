@@ -8,12 +8,12 @@ import ProgressiveImage from 'react-progressive-graceful-image'
 import uploadFiles from '../../services/firebase/uploadFiles'
 import { auth, dbFirestore } from '../../services/firebase/firebase'
 import { getEpisodes } from '../../services/redux/slices/episodeSlice'
+import { setPlayingEpisode } from '../../services/redux/slices/appSlice'
 import { getPodcasts, selectPodcast } from '../../services/redux/slices/podcastSlice'
 
+import { PopupForm } from '../../components/PopupForm'
 import { EpisodeCard as Card } from '../../components/Card'
-import { PopupForm } from '../../components/PopupForm/PopupForm'
-import { EpisodeSkeleton, ImageSkeleton } from '../../components/Skeletons/Skeletons'
-import { setPlayingEpisode } from '../../services/redux/slices/appSlice'
+import { EpisodeSkeleton, ImageSkeleton } from '../../components/Skeletons'
 
 import './DetailsPage.css'
 

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import InputBox from '../../components/InputBox'
-import { PodcastCard as Card } from '../../components/Card'
-import { CardWithTextSkeleton } from '../../components/Skeletons/Skeletons'
 import { getPodcasts } from '../../services/redux/slices/podcastSlice'
 import { getEpisodes } from '../../services/redux/slices/episodeSlice'
+
+import InputBox from '../../components/InputBox'
+import { PodcastCard as Card } from '../../components/Card'
+import { CardWithTextSkeleton } from '../../components/Skeletons'
 
 import './PodcastsPage.css'
 

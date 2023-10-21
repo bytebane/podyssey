@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { AudioSkeleton } from '../Skeletons'
 import { closePlayingEpisode } from '../../services/redux/slices/appSlice'
 
-import PlayIcon from '../../assets/play.svg'
-import PauseIcon from '../../assets/pause.svg'
-import SeekIcon from '../../assets/seek.svg'
-import RewindIcon from '../../assets/rewind.svg'
-import MuteIcon from '../../assets/volume-mute.svg'
-import VolumeLowIcon from '../../assets/volume-low.svg'
-import VolumeFullIcon from '../../assets/volume-full.svg'
+import { PlayIcon, PauseIcon, ForwardIcon, RewindIcon, VolumeFullIcon, VolumeLowIcon, VolumeOffIcon } from '../../assets'
 
 import './Audio.css'
-import { AudioSkeleton } from '../Skeletons/Skeletons'
 
 const Audio = () => {
 	const audioRef = React.useRef()
@@ -135,7 +129,7 @@ const Audio = () => {
 						/>
 						<img
 							className="seek"
-							src={SeekIcon}
+							src={ForwardIcon}
 							onClick={() => {
 								audioRef.current.currentTime += 10
 							}}
@@ -163,7 +157,7 @@ const Audio = () => {
 					<div className="volume-container">
 						<img
 							className="volume-icon"
-							src={volume === 0 || isMuted ? MuteIcon : volume <= 0.4 ? VolumeLowIcon : VolumeFullIcon}
+							src={volume === 0 || isMuted ? VolumeOffIcon : volume <= 0.4 ? VolumeLowIcon : VolumeFullIcon}
 							onClick={toggleMute}
 						/>
 						<input

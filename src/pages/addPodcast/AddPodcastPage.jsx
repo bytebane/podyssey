@@ -9,9 +9,9 @@ import { dbFirestore } from '../../services/firebase/firebase'
 import { getPodcasts } from '../../services/redux/slices/podcastSlice'
 
 import InputBox from '../../components/InputBox'
+import { ButtonSkeleton } from '../../components/Skeletons'
 
 import './AddPodcast.css'
-import { ButtonSkeleton } from '../../components/Skeletons'
 
 const AddPodcastPage = () => {
 	const UserInfo = useSelector((state) => state.user.data)
