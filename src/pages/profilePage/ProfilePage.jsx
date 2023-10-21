@@ -28,6 +28,7 @@ const ProfilePage = () => {
 	const dispatch = useDispatch()
 	const [editing, setEditing] = useState(false)
 	const [imageFile, setImageFile] = useState()
+	const [imageUrl, setImageUrl] = useState()
 
 	const navigate = useNavigate()
 
@@ -46,10 +47,6 @@ const ProfilePage = () => {
 			})
 	}
 
-	useEffect(() => {
-		if (!podcasts.list.length > 0) dispatch(getPodcasts())
-	}, [])
-
 	// ANCHOR EditProfile. Get Form Data and Update Firebase Users
 	const handleEdit = () => {
 		event.preventDefault()
@@ -67,22 +64,26 @@ const ProfilePage = () => {
 			return setEditing(false)
 		}
 
+		// Validate full name
 		if (name && name.split(' ').length < 2) {
 			return toast.error('Please enter full name')
 		}
 
+		// Update Profile Picture
 		if (imageFile) {
 			uploadFile({ name: 'Profile Picture', data: imageFile, uploadPath: `user/dp-${auth.currentUser.uid}` })
 				.then((url) => {
 					updateProfile(auth.currentUser, {
 						photoURL: url,
 					})
+					setImageUrl(url)
 				})
 				.then(() => {
 					setEditing(false)
 					setImageFile(null)
 				})
 		}
+		// Update Name and Email
 		if (name && email) {
 			updateProfile(auth.currentUser, {
 				displayName: name,
@@ -91,11 +92,13 @@ const ProfilePage = () => {
 				setEditing(false)
 			})
 		}
+		// Update only Name
 		if (name) {
 			updateProfile(auth.currentUser, {
 				displayName: name,
 			})
 		}
+		// Update only Email
 		if (email) {
 			updateEmail(auth.currentUser, email)
 				.then(() => {
@@ -106,9 +109,15 @@ const ProfilePage = () => {
 					console.log(error)
 				})
 		}
-
+		// Reset Form
 		event.target.reset()
 	}
+
+	// Set Image URL and get Podcasts if not already loaded
+	useEffect(() => {
+		setImageUrl(auth.currentUser.photoURL)
+		if (!podcasts.list.length > 0) dispatch(getPodcasts())
+	}, [])
 
 	return (
 		<main className="profile-container">
@@ -137,9 +146,9 @@ const ProfilePage = () => {
 								alt="profilePicture"
 							/>
 						) : (
-							auth.currentUser.photoURL && (
+							imageUrl && (
 								<ProgressiveImage
-									src={auth.currentUser.photoURL}
+									src={imageUrl}
 									placeholder="">
 									{(src, loading) => {
 										return loading ? (
@@ -201,7 +210,7 @@ const ProfilePage = () => {
 							</p>
 						)}
 						<p>
-							Total Uploads:&nbsp;&nbsp;<span>{podcasts.list.length} Podcasts </span>&nbsp; ● &nbsp;&nbsp;<span>{episodes.list.filter((episode) => episode.createdBy === auth.currentUser.uid).length} Episodes</span>
+							Total Uploads:&nbsp;&nbsp;<span>{podcasts.list.filter((podcast) => podcast.createdBy === auth.currentUser.uid).length} Podcasts </span>&nbsp; ● &nbsp;&nbsp;<span>{episodes.list.filter((episode) => episode.createdBy === auth.currentUser.uid).length} Episodes</span>
 						</p>
 					</div>
 				</section>
@@ -209,8 +218,6 @@ const ProfilePage = () => {
 			<section className="podcast">
 				<h2>My Podcasts</h2>
 				<div className="card-grid">
-					{/* TODO map all podcasts cerated by user as Cards */}
-
 					{podcasts.isLoading
 						? Array(2)
 								.fill(0)
