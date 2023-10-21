@@ -1,7 +1,62 @@
 import React from 'react'
-import './Skeleton.css'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+
 import 'react-loading-skeleton/dist/skeleton.css'
+import './Skeleton.css'
+
+//  Skeleton Loader for Audio
+export const AudioSkeleton = () => {
+	return (
+		<SkeletonTheme
+			highlightColor="#20062e60"
+			baseColor="rgba(58, 129, 191, .15)">
+			<div className="audio-skeleton">
+				<Skeleton
+					width={'60px'}
+					height={'60px'}
+				/>
+
+				<Skeleton
+					circle
+					height={'2rem'}
+					width={'2rem'}
+				/>
+				<Skeleton
+					circle
+					height={'2rem'}
+					width={'2rem'}
+				/>
+				<Skeleton
+					circle
+					height={'2rem'}
+					width={'2rem'}
+				/>
+				<Skeleton
+					width={'5vw'}
+					height={'1.25rem'}
+				/>
+				<Skeleton
+					width={'42vw'}
+					height={'1.25rem'}
+					className="progress-slider"
+				/>
+				<Skeleton
+					width={'5vw'}
+					height={'1.25rem'}
+				/>
+				<Skeleton
+					circle
+					width={'2rem'}
+					height={'2rem'}
+				/>
+				<Skeleton
+					height={'1.25rem'}
+					width={'15vw'}
+				/>
+			</div>
+		</SkeletonTheme>
+	)
+}
 
 // Skeleton Loader for Button
 export const ButtonSkeleton = () => {
@@ -78,6 +133,48 @@ export const CardWithTextSkeleton = () => {
 					height={40}
 					style={{ position: 'absolute', right: 25, bottom: 15 }}
 				/>
+			</div>
+		</SkeletonTheme>
+	)
+}
+
+// Episode Skeleton Loader
+export const EpisodeSkeleton = () => {
+	return (
+		<SkeletonTheme
+			highlightColor="#20062e60"
+			baseColor="rgba(58, 129, 191, .15)">
+			<div className="episode-card">
+				<Skeleton
+					width={'120px'}
+					height={'120px'}
+					style={{ borderRadius: '100%' }}
+				/>
+
+				<div
+					style={{ width: '100%' }}
+					className="episode-meta">
+					<Skeleton
+						width={'85%'}
+						height={'1.5rem'}
+						style={{ marginBottom: '0.5rem' }}
+					/>
+					<Skeleton
+						width={'70%'}
+						height={'1rem'}
+						style={{ marginBottom: '0.5rem' }}
+					/>
+					<Skeleton
+						width={'70%'}
+						height={'1rem'}
+						style={{ marginBottom: '0.5rem' }}
+					/>
+					<Skeleton
+						width={'70%'}
+						height={'1rem'}
+						style={{ marginBottom: '0.5rem' }}
+					/>
+				</div>
 			</div>
 		</SkeletonTheme>
 	)

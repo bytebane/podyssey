@@ -57,8 +57,9 @@
 	max-width: 125px;
 }
 .close-player {
-	padding: 0.5rem;
+	padding: 0.25rem 0.5rem;
 	border-radius: 100%;
+	font-size: 20px;
 }
 .volume-icon {
 	width: 20px;

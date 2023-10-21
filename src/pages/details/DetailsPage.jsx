@@ -1,21 +1,21 @@
-import { PopupForm } from '../../components/PopupForm/PopupForm'
 import React, { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { getPodcasts, selectPodcast } from '../../services/redux/slices/podcastSlice'
-
 import { toast } from 'react-toastify'
-import uploadFiles from '../../services/firebase/uploadFiles'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { addDoc, collection } from 'firebase/firestore'
+import ProgressiveImage from 'react-progressive-graceful-image'
+
+import uploadFiles from '../../services/firebase/uploadFiles'
 import { auth, dbFirestore } from '../../services/firebase/firebase'
 import { getEpisodes } from '../../services/redux/slices/episodeSlice'
-
-import { EpisodeCard as Card } from '../../components/Card'
-import { CardWithTextSkeleton, ImageSkeleton } from '../../components/Skeletons/Skeletons'
 import { setPlayingEpisode } from '../../services/redux/slices/appSlice'
+import { getPodcasts, selectPodcast } from '../../services/redux/slices/podcastSlice'
+
+import { PopupForm } from '../../components/PopupForm'
+import { EpisodeCard as Card } from '../../components/Card'
+import { EpisodeSkeleton, ImageSkeleton } from '../../components/Skeletons'
 
 import './DetailsPage.css'
-import ProgressiveImage from 'react-progressive-graceful-image'
 
 const DetailsPage = () => {
 	const params = useParams()
@@ -77,7 +77,6 @@ const DetailsPage = () => {
 					dispatch(getEpisodes())
 				})
 			})
-
 			.finally(() => {
 				formRef.current.close()
 				setPopupLoading(false)
@@ -85,94 +84,92 @@ const DetailsPage = () => {
 	}
 
 	return (
-		<>
-			{podcastData && (
-				<main className="podcast-details">
-					<section className="podcast-info">
-						<h2>{podcastData.title}</h2>
-						<div className="image-stack">
-							<ProgressiveImage
-								src={podcastData.bannerUrl}
-								placeholder="">
-								{(src, loading) => {
-									return loading ? (
-										<div>
-											<ImageSkeleton
-												className={'podcast-banner'}
-												width={'100%'}
-												height={'24rem'}
-											/>
-										</div>
-									) : (
-										<img
-											className="podcast-banner"
-											src={podcastData.bannerUrl}
-											alt={podcastData.title}
+		podcastData && (
+			<main className="podcast-details">
+				<section className="podcast-info">
+					<h2>{podcastData.title}</h2>
+					<div className="image-stack">
+						<ProgressiveImage
+							src={podcastData.bannerUrl}
+							placeholder="">
+							{(src, loading) => {
+								return loading ? (
+									<div>
+										<ImageSkeleton
+											className={'podcast-banner'}
+											width={'100%'}
+											height={'24rem'}
+										/>
+									</div>
+								) : (
+									<img
+										className="podcast-banner"
+										src={podcastData.bannerUrl}
+										alt={podcastData.title}
+									/>
+								)
+							}}
+						</ProgressiveImage>
+						<ProgressiveImage
+							src={podcastData.bannerUrl}
+							placeholder="">
+							{(src, loading) => {
+								return loading ? (
+									<div>
+										<ImageSkeleton
+											className={'podcast-thumbnail'}
+											width={'150px'}
+											height={'150px'}
+										/>
+									</div>
+								) : (
+									<img
+										className="podcast-thumbnail"
+										src={podcastData.thumbnailUrl}
+										alt={podcastData.title}
+									/>
+								)
+							}}
+						</ProgressiveImage>
+					</div>
+					<p>{podcastData.description}</p>
+				</section>
+				<section className="episodes">
+					<div className="episodes-header">
+						<h2>Episodes</h2>
+						{/* ANCHOR AddNewEpisode */}
+						{podcastData.createdBy === auth.currentUser.uid && (
+							<PopupForm
+								formRef={formRef}
+								handleAddNewEpisode={handleAddNewEpisode}
+								disabled={popupLoading}
+							/>
+						)}
+					</div>
+					<div className="cards-list">
+						{episodesData.isLoading ? (
+							Array.from({ length: 8 }).map((_, index) => <EpisodeSkeleton key={index} />)
+						) : episodesData.list.filter((episode) => episode.podcastId === params.id) <= 0 ? (
+							<h3>No Episodes Found.</h3>
+						) : (
+							episodesData.list
+								.filter((episode) => episode.podcastId === params.id)
+								.map((episode) => {
+									return (
+										<Card
+											key={episode.id}
+											episode={episode}
+											onClick={() => {
+												dispatch(setPlayingEpisode(episode))
+											}}
 										/>
 									)
-								}}
-							</ProgressiveImage>
-							<ProgressiveImage
-								src={podcastData.bannerUrl}
-								placeholder="">
-								{(src, loading) => {
-									return loading ? (
-										<div>
-											<ImageSkeleton
-												className={'podcast-thumbnail'}
-												width={'150px'}
-												height={'150px'}
-											/>
-										</div>
-									) : (
-										<img
-											className="podcast-thumbnail"
-											src={podcastData.thumbnailUrl}
-											alt={podcastData.title}
-										/>
-									)
-								}}
-							</ProgressiveImage>
-						</div>
-						<p>{podcastData.description}</p>
-					</section>
-					<section className="episodes">
-						<div className="episodes-header">
-							<h2>Episodes</h2>
-							{/* ANCHOR AddNewEpisode */}
-							{podcastData.createdBy === auth.currentUser.uid && (
-								<PopupForm
-									formRef={formRef}
-									handleAddNewEpisode={handleAddNewEpisode}
-									disabled={popupLoading}
-								/>
-							)}
-						</div>
-						<div className="cards-list">
-							{episodesData.isLoading ? (
-								Array.from({ length: 8 }).map((_, index) => <CardWithTextSkeleton key={index} />)
-							) : episodesData.list.filter((episode) => episode.podcastId === params.id) <= 0 ? (
-								<h3>No Episodes Found.</h3>
-							) : (
-								episodesData.list
-									.filter((episode) => episode.podcastId === params.id)
-									.map((episode) => {
-										return (
-											<Card
-												key={episode.id}
-												episode={episode}
-												onClick={() => {
-													dispatch(setPlayingEpisode(episode))
-												}}
-											/>
-										)
-									})
-							)}
-						</div>
-					</section>
-				</main>
-			)}
-		</>
+								})
+						)}
+					</div>
+				</section>
+			</main>
+		)
 	)
 }
 

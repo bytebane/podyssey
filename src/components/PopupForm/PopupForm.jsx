@@ -1,9 +1,10 @@
 import React from 'react'
 import Popup from 'reactjs-popup'
+
 import InputBox from '../InputBox'
+import { ButtonSkeleton } from '../Skeletons'
 
 import './PopupForm.css'
-import { ButtonSkeleton } from '../Skeletons'
 
 export function PopupForm({ formRef, handleAddNewEpisode, disabled }) {
 	return (

@@ -2,10 +2,10 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { navOptions } from '../../services/routing/nav'
+import { navOptions } from '../../services/routing'
 import { signoutUser } from '../../services/redux/slices/userSlice'
 
-import bg from '../../assets/bg.svg'
+import { NavBG } from '../../assets'
 
 import './NavBar.css'
 
@@ -28,7 +28,7 @@ const NavBar = () => {
 		<nav>
 			<img
 				className="navbar-bg"
-				src={bg}
+				src={NavBG}
 				alt="bg"
 			/>
 			<div className="navbar">

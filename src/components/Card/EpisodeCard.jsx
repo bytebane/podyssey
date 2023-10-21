@@ -1,9 +1,11 @@
 import React from 'react'
-import PlayIcon from '../../assets/play.svg'
+import ProgressiveImage from 'react-progressive-graceful-image'
+
+import { ImageSkeleton } from '../Skeletons/Skeletons'
+
+import { PlayIcon } from '../../assets'
 
 import './Card.css'
-import ProgressiveImage from 'react-progressive-graceful-image'
-import { ImageSkeleton } from '../Skeletons/Skeletons'
 
 function EpisodeCard({ episode, onClick }) {
 	return (

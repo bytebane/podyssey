@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 
-import addImageIcon from '../../assets/add-image.svg'
-import InputBox from '../../components/InputBox'
 import { auth } from '../../services/firebase/firebase'
-import { ButtonSkeleton } from '../../components/Skeletons'
 import { signinUser, signupUser } from '../../services/redux/slices/userSlice'
 import { showForgetPassword, showSignin, showSignup } from '../../services/redux/slices/appSlice'
 
+import InputBox from '../../components/InputBox'
+import { ButtonSkeleton } from '../../components/Skeletons'
+
+import { AddImageIcon } from '../../assets'
 import './AuthPage.css'
 
 function AuthPage() {
@@ -133,7 +134,7 @@ function AuthPage() {
 							onClick={() => imageInputRef.current.click()}
 							style={{ cursor: 'pointer', opacity: `${imageFile ? '0.8' : '1'}` }}
 							className="add-image-ic"
-							src={addImageIcon}
+							src={AddImageIcon}
 							alt="pick-image"
 						/>
 					</div>

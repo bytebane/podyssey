@@ -1,15 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { AudioSkeleton } from '../Skeletons'
 import { closePlayingEpisode } from '../../services/redux/slices/appSlice'
 
-import PlayIcon from '../../assets/play.svg'
-import PauseIcon from '../../assets/pause.svg'
-import SeekIcon from '../../assets/seek.svg'
-import RewindIcon from '../../assets/rewind.svg'
-import MuteIcon from '../../assets/volume-mute.svg'
-import VolumeLowIcon from '../../assets/volume-low.svg'
-import VolumeFullIcon from '../../assets/volume-full.svg'
+import { PlayIcon, PauseIcon, ForwardIcon, RewindIcon, VolumeFullIcon, VolumeLowIcon, VolumeOffIcon } from '../../assets'
 
 import './Audio.css'
 
@@ -23,19 +18,27 @@ const Audio = () => {
 	const [progress, setProgress] = React.useState(0)
 	const [volume, setVolume] = React.useState(1)
 	const [isMuted, setIsMuted] = React.useState(false)
+	const [isLoading, setIsLoading] = React.useState(true)
 
 	// Adding Event Listners [Timeupdate, Ended]
 	useEffect(() => {
 		const audio = audioRef.current
+		audio.addEventListener('loadedmetadata', handleLoaded)
 		audio.addEventListener('timeupdate', handleProgressChange)
 		audio.addEventListener('ended', handleEnded)
 
 		// Removing Event Listners
 		return () => {
+			audio.removeEventListener('loadedmetadata', handleLoaded)
 			audio.removeEventListener('timeupdate', handleProgressChange)
 			audio.removeEventListener('ended', handleEnded)
 		}
 	}, [])
+
+	// Loaded Audio
+	const handleLoaded = () => {
+		setIsLoading(false)
+	}
 
 	// Play/Pause Audio
 	useEffect(() => {
@@ -95,80 +98,87 @@ const Audio = () => {
 	}
 
 	return (
-		<footer className="audio-player">
+		<footer className={isLoading ? '' : 'audio-player'}>
 			<audio
 				ref={audioRef}
 				src={episode.audioUrl}
 				style={{ display: 'none' }}
 			/>
-			<img
-				className="thumbnail"
-				src={episode.thumbnailUrl}
-				alt=""
-			/>
-			<div className="player-controls">
-				<img
-					className="rewind"
-					src={RewindIcon}
-					onClick={() => {
-						audioRef.current.currentTime -= 10
-					}}
-				/>
-				<img
-					className="play-pause"
-					src={playing ? PauseIcon : PlayIcon}
-					onClick={togglePlaying}
-				/>
-				<img
-					className="seek"
-					src={SeekIcon}
-					onClick={() => {
-						audioRef.current.currentTime += 10
-					}}
-				/>
-			</div>
-			{audioRef.current && (
-				<div className="progress-container">
-					<p>{audioRef.current.duration ? formatTime(audioRef.current.duration) : '00:00'}</p>
-
-					<input
-						className="progress-slider"
-						type="range"
-						name="progress"
-						id="progress"
-						min="0"
-						max={audioRef.current.duration}
-						step={0.01}
-						value={progress}
-						onChange={handleProgressSeek}
+			{/* Loading Skeleton */}
+			{isLoading ? (
+				<AudioSkeleton />
+			) : (
+				<>
+					<img
+						className="thumbnail"
+						src={episode.thumbnailUrl}
+						alt=""
 					/>
+					<div className="player-controls">
+						<img
+							className="rewind"
+							src={RewindIcon}
+							onClick={() => {
+								audioRef.current.currentTime -= 10
+							}}
+						/>
+						<img
+							className="play-pause"
+							src={playing ? PauseIcon : PlayIcon}
+							onClick={togglePlaying}
+						/>
+						<img
+							className="seek"
+							src={ForwardIcon}
+							onClick={() => {
+								audioRef.current.currentTime += 10
+							}}
+						/>
+					</div>
+					{audioRef.current && (
+						<div className="progress-container">
+							<p>{audioRef.current.duration ? formatTime(audioRef.current.duration) : '00:00'}</p>
 
-					<p>-{audioRef.current.duration ? formatTime(audioRef.current.duration - progress) : '00:00'}</p>
-				</div>
+							<input
+								className="progress-slider"
+								type="range"
+								name="progress"
+								id="progress"
+								min="0"
+								max={audioRef.current.duration}
+								step={0.01}
+								value={progress}
+								onChange={handleProgressSeek}
+							/>
+
+							<p>-{audioRef.current.duration ? formatTime(audioRef.current.duration - progress) : '00:00'}</p>
+						</div>
+					)}
+					<div className="volume-container">
+						<img
+							className="volume-icon"
+							src={volume === 0 || isMuted ? VolumeOffIcon : volume <= 0.4 ? VolumeLowIcon : VolumeFullIcon}
+							onClick={toggleMute}
+						/>
+						<input
+							className="volume-slider"
+							type="range"
+							name="volume"
+							id="volume"
+							min="0"
+							max="1"
+							step="0.1"
+							value={isMuted ? 0 : volume}
+							onChange={handleVolumeChange}
+						/>
+					</div>
+					<button
+						className="close-player"
+						onClick={() => dispatch(closePlayingEpisode())}>
+						&times;
+					</button>
+				</>
 			)}
-			<div className="volume-container">
-				<img
-					className="volume-icon"
-					src={volume === 0 || isMuted ? MuteIcon : volume <= 0.4 ? VolumeLowIcon : VolumeFullIcon}
-					onClick={toggleMute}
-				/>
-				<input
-					className="volume-slider"
-					type="range"
-					name="volume"
-					id="volume"
-					min="0"
-					max="1"
-					step="0.1"
-					value={isMuted ? 0 : volume}
-					onChange={handleVolumeChange}
-				/>
-			</div>
-			<button
-				className="close-player"
-				onClick={() => dispatch(closePlayingEpisode())}>
-				X
-			</button>
 		</footer>
 	)
 }
