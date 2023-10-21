@@ -2,16 +2,16 @@ import { PopupForm } from '../../components/PopupForm/PopupForm'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getPodcasts, selectPodcast } from '../../services/redux/slices/podcastSlice'
-
 import { toast } from 'react-toastify'
+
 import uploadFiles from '../../services/firebase/uploadFiles'
 import { addDoc, collection } from 'firebase/firestore'
 import { auth, dbFirestore } from '../../services/firebase/firebase'
 import { getEpisodes } from '../../services/redux/slices/episodeSlice'
+import { getPodcasts, selectPodcast } from '../../services/redux/slices/podcastSlice'
 
 import { EpisodeCard as Card } from '../../components/Card'
-import { CardWithTextSkeleton, ImageSkeleton } from '../../components/Skeletons/Skeletons'
+import { EpisodeSkeleton, ImageSkeleton } from '../../components/Skeletons/Skeletons'
 import { setPlayingEpisode } from '../../services/redux/slices/appSlice'
 
 import './DetailsPage.css'
@@ -150,7 +150,7 @@ const DetailsPage = () => {
 						</div>
 						<div className="cards-list">
 							{episodesData.isLoading ? (
-								Array.from({ length: 8 }).map((_, index) => <CardWithTextSkeleton key={index} />)
+								Array.from({ length: 8 }).map((_, index) => <EpisodeSkeleton key={index} />)
 							) : episodesData.list.filter((episode) => episode.podcastId === params.id) <= 0 ? (
 								<h3>No Episodes Found.</h3>
 							) : (
