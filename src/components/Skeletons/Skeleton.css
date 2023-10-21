@@ -10,6 +10,18 @@
 	box-shadow: 4px 10px 18px rgba(109, 87, 87, 0.349);
 }
 
+.audio-skeleton {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100vw;
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	padding: 1.25rem 1rem;
+	background: var(--gradient-color);
+}
+
 .skeleton-text {
 	position: absolute;
 	top: 50%;
